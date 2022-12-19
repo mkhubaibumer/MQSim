@@ -1,0 +1,307 @@
+src/sim/Engine.cpp:126 RegisterEvent 11413000 0x135d5aa00
+src/sim/Engine.cpp:91 Processing Event of type Host.IO_Flow.Trace.traces/test.trace Current system-logical time: 0 with event-logical time: 11413000
+src/host/IO_Flow_Trace_Based.cpp:189 Arrival Time: 11413000 Enqueue Time: 0 Start LBA: 657728 LBA Count: 16 Type: 1 IO Queue Info: 0 Source Flow ID: 0
+
+src/host/PCIe_Link.cpp:40 
+src/sim/Engine.cpp:126 RegisterEvent 11413008 0x6000031f00c0
+src/sim/Engine.cpp:91 Processing Event of type Host.PCIeLink Current system-logical time: 11413000 with event-logical time: 11413008
+src/host/PCIe_Link.cpp:61 Destination: DEVICE
+src/ssd/Host_Interface_Base.h:115 
+src/host/PCIe_Link.cpp:32 
+src/sim/Engine.cpp:126 RegisterEvent 11413016 0x6000031f00c0
+src/sim/Engine.cpp:91 Processing Event of type Host.PCIeLink Current system-logical time: 11413008 with event-logical time: 11413016
+src/host/PCIe_Link.cpp:61 Destination: HOST
+src/host/PCIe_Root_Complex.h:28 Message Type READ_REQ
+src/host/PCIe_Root_Complex.cpp:71 SSD Device Type: 1 **PCIe_Message** Destination: 1 Type: 2 Payload Size: 72 Address: 1099511627776
+
+src/host/PCIe_Link.cpp:40 
+src/sim/Engine.cpp:126 RegisterEvent 11413041 0x6000031f00c0
+src/sim/Engine.cpp:91 Processing Event of type Host.PCIeLink Current system-logical time: 11413016 with event-logical time: 11413041
+src/host/PCIe_Link.cpp:61 Destination: DEVICE
+src/ssd/Host_Interface_Base.h:115 
+src/ssd/Host_Interface_NVMe.cpp:320 Opcode:  **Host_Interface_NVMe** Submission Q Depth: 65535 Completion Q Depth: 65535 # input streams: 1
+ **User_Request** Priority Class: 1 ID: 0 Start LBA: 657728 STAT Init Time: 11413041 STAT Response Time: 0 Sectors from Cache0 Size Bytes: 8192 Size Sectors: 16 Type: 1 Stream ID: 0
+
+src/ssd/Host_Interface_NVMe.cpp:87 
+src/host/PCIe_Link.cpp:32 
+src/sim/Engine.cpp:126 RegisterEvent 11413049 0x6000031f00c0
+src/sim/Engine.cpp:91 Processing Event of type Host.PCIeLink Current system-logical time: 11413041 with event-logical time: 11413049
+src/host/PCIe_Link.cpp:61 Destination: HOST
+src/host/PCIe_Root_Complex.h:28 Message Type READ_REQ
+src/host/PCIe_Root_Complex.cpp:56 **PCIe_Message** Destination: 1 Type: 2 Payload Size: 8192 Address: 280375465082880
+
+src/host/PCIe_Link.cpp:40 
+src/sim/Engine.cpp:126 RegisterEvent 11415545 0x6000031f00c0
+src/sim/Engine.cpp:91 Processing Event of type Host.PCIeLink Current system-logical time: 11413049 with event-logical time: 11415545
+src/host/PCIe_Link.cpp:61 Destination: DEVICE
+src/ssd/Host_Interface_Base.h:115 
+src/ssd/Host_Interface_NVMe.cpp:325 
+src/ssd/Host_Interface_NVMe.cpp:96 
+src/ssd/Host_Interface_NVMe.cpp:175 
+src/ssd/Host_Interface_NVMe.cpp:196 
+src/ssd/Host_Interface_NVMe.cpp:214 
+src/ssd/Data_Cache_Manager_Base.cpp:64 
+src/ssd/Data_Cache_Manager_Flash_Advanced.cpp:281 
+src/ssd/Data_Cache_Flash.cpp:129 
+src/ssd/SSD_Defs.h:39 Value: 16
+src/ssd/Data_Cache_Flash.cpp:95 
+src/ssd/SSD_Defs.h:39 Value: 16
+src/ssd/Data_Cache_Manager_Flash_Advanced.cpp:343 
+src/ssd/Data_Cache_Manager_Flash_Advanced.cpp:530 
+src/ssd/Data_Cache_Manager_Flash_Advanced.cpp:541 
+src/ssd/Data_Cache_Manager_Base.h:70 
+src/sim/Engine.cpp:126 RegisterEvent 11456531 0x13a604b60
+src/ssd/Data_Cache_Manager_Flash_Advanced.cpp:354 
+src/ssd/TSU_Base.h:49 
+src/ssd/TSU_Base.h:60 
+src/ssd/TSU_Priority_OutOfOrder.cpp:475 
+src/ssd/TSU_Priority_OutOfOrder.cpp:445 
+src/ssd/TSU_Priority_OutOfOrder.cpp:475 
+src/ssd/TSU_Priority_OutOfOrder.cpp:445 
+src/ssd/TSU_Priority_OutOfOrder.cpp:475 
+src/ssd/TSU_Priority_OutOfOrder.cpp:445 
+src/ssd/TSU_Priority_OutOfOrder.cpp:475 
+src/ssd/TSU_Priority_OutOfOrder.cpp:445 
+src/ssd/TSU_Priority_OutOfOrder.cpp:475 
+src/ssd/TSU_Priority_OutOfOrder.cpp:445 
+src/ssd/TSU_Priority_OutOfOrder.cpp:475 
+src/ssd/TSU_Priority_OutOfOrder.cpp:445 
+src/ssd/TSU_Priority_OutOfOrder.cpp:475 
+src/ssd/TSU_Priority_OutOfOrder.cpp:445 
+src/ssd/TSU_Priority_OutOfOrder.cpp:475 
+src/ssd/TSU_Priority_OutOfOrder.cpp:445 
+src/ssd/TSU_Priority_OutOfOrder.cpp:475 
+src/ssd/TSU_Priority_OutOfOrder.cpp:445 
+src/ssd/TSU_Priority_OutOfOrder.cpp:475 
+src/ssd/TSU_Priority_OutOfOrder.cpp:445 
+src/ssd/TSU_Priority_OutOfOrder.cpp:475 
+src/ssd/TSU_Priority_OutOfOrder.cpp:445 
+src/ssd/TSU_Priority_OutOfOrder.cpp:475 
+src/ssd/TSU_Priority_OutOfOrder.cpp:445 
+src/ssd/TSU_Priority_OutOfOrder.cpp:475 
+src/ssd/TSU_Priority_OutOfOrder.cpp:445 
+src/ssd/TSU_Priority_OutOfOrder.cpp:475 
+src/ssd/TSU_Priority_OutOfOrder.cpp:445 
+src/ssd/TSU_Priority_OutOfOrder.cpp:475 
+src/ssd/TSU_Priority_OutOfOrder.cpp:445 
+src/ssd/TSU_Priority_OutOfOrder.cpp:475 
+src/ssd/TSU_Priority_OutOfOrder.cpp:445 
+src/ssd/TSU_Priority_OutOfOrder.cpp:475 
+src/ssd/TSU_Priority_OutOfOrder.cpp:445 
+src/ssd/TSU_Priority_OutOfOrder.cpp:475 
+src/ssd/TSU_Priority_OutOfOrder.cpp:445 
+src/ssd/TSU_Priority_OutOfOrder.cpp:475 
+src/ssd/TSU_Priority_OutOfOrder.cpp:445 
+src/ssd/TSU_Priority_OutOfOrder.cpp:475 
+src/ssd/TSU_Priority_OutOfOrder.cpp:445 
+src/ssd/TSU_Priority_OutOfOrder.cpp:475 
+src/ssd/TSU_Priority_OutOfOrder.cpp:445 
+src/ssd/TSU_Priority_OutOfOrder.cpp:475 
+src/ssd/TSU_Priority_OutOfOrder.cpp:445 
+src/ssd/TSU_Priority_OutOfOrder.cpp:475 
+src/ssd/TSU_Priority_OutOfOrder.cpp:445 
+src/ssd/TSU_Priority_OutOfOrder.cpp:475 
+src/ssd/TSU_Priority_OutOfOrder.cpp:445 
+src/ssd/TSU_Priority_OutOfOrder.cpp:475 
+src/ssd/TSU_Priority_OutOfOrder.cpp:445 
+src/ssd/TSU_Priority_OutOfOrder.cpp:475 
+src/ssd/TSU_Priority_OutOfOrder.cpp:445 
+src/ssd/TSU_Priority_OutOfOrder.cpp:475 
+src/ssd/TSU_Priority_OutOfOrder.cpp:445 
+src/ssd/../nvm_chip/flash_memory/Physical_Page_Address.h:36 
+src/sim/Engine.cpp:126 RegisterEvent 11415835 0x6000033f0000
+src/ssd/ONFI_Channel_Base.h:25 
+src/ssd/TSU_Priority_OutOfOrder.cpp:475 
+src/ssd/TSU_Priority_OutOfOrder.cpp:445 
+src/ssd/TSU_Priority_OutOfOrder.cpp:475 
+src/ssd/TSU_Priority_OutOfOrder.cpp:445 
+src/ssd/TSU_Priority_OutOfOrder.cpp:475 
+src/ssd/TSU_Priority_OutOfOrder.cpp:445 
+src/ssd/TSU_Priority_OutOfOrder.cpp:475 
+src/ssd/TSU_Priority_OutOfOrder.cpp:445 
+src/ssd/TSU_Base.h:49 
+src/sim/Engine.cpp:91 Processing Event of type SSDDevice.PHY Current system-logical time: 11415545 with event-logical time: 11415835
+src/ssd/NVM_PHY_ONFI_NVDDR2.cpp:345 **DieBookKeepingEntry** Free:0 Suspended: 0 Expected_finish_time: 11490855 RemainingExecTime: 18446744073709551615 DieInterleavedTime: 18446744073709551615
+ **ChipBookKeepingEntry** Status: 1 Expected_command_exec_finish_time: 11490855 Last_transfer_finish_time: 11415835 HasSuspend: 0 WaitingReadTXCount: 0 No_of_active_dies: 0
+
+src/ssd/NVM_PHY_ONFI_NVDDR2.cpp:349 
+src/ssd/../nvm_chip/flash_memory/Flash_Chip.h:48 
+src/nvm_chip/flash_memory/Flash_Chip.cpp:106 
+src/sim/Engine.cpp:126 RegisterEvent 11490855 0x6000038f4500
+src/ssd/NVM_PHY_ONFI_NVDDR2.cpp:361 
+src/ssd/ONFI_Channel_Base.h:25 
+src/ssd/NVM_PHY_ONFI.cpp:33 
+src/ssd/TSU_Base.cpp:49 
+src/ssd/TSU_Base.h:97 
+src/ssd/TSU_Priority_OutOfOrder.cpp:475 
+src/ssd/TSU_Priority_OutOfOrder.cpp:445 
+src/ssd/TSU_Base.h:97 
+src/ssd/TSU_Priority_OutOfOrder.cpp:475 
+src/ssd/TSU_Priority_OutOfOrder.cpp:445 
+src/ssd/TSU_Base.h:97 
+src/ssd/TSU_Priority_OutOfOrder.cpp:475 
+src/ssd/TSU_Priority_OutOfOrder.cpp:445 
+src/ssd/TSU_Base.h:97 
+src/ssd/TSU_Priority_OutOfOrder.cpp:475 
+src/ssd/TSU_Priority_OutOfOrder.cpp:445 
+src/sim/Engine.cpp:91 Processing Event of type SSDDevice.DataCache Current system-logical time: 11415835 with event-logical time: 11456531
+src/host/PCIe_Link.cpp:32 
+src/sim/Engine.cpp:126 RegisterEvent 11456542 0x6000031f00c0
+src/sim/Engine.cpp:91 Processing Event of type Host.PCIeLink Current system-logical time: 11456531 with event-logical time: 11456542
+src/host/PCIe_Link.cpp:61 Destination: HOST
+src/host/PCIe_Root_Complex.h:32 Message Type WRITE_REQ
+src/host/PCIe_Root_Complex.cpp:18 
+src/host/IO_Flow_Base.cpp:311 Arrival Time: 11413000 Enqueue Time: 11413000 Start LBA: 657728 LBA Count: 16 Type: 1 IO Queue Info: 0 Source Flow ID: 0
+
+src/host/PCIe_Link.cpp:40 
+src/sim/Engine.cpp:126 RegisterEvent 11456550 0x6000031f00c0
+src/sim/Engine.cpp:91 Processing Event of type Host.PCIeLink Current system-logical time: 11456542 with event-logical time: 11456550
+src/host/PCIe_Link.cpp:61 Destination: DEVICE
+src/ssd/Host_Interface_Base.h:115 
+src/sim/Engine.cpp:91 Processing Event of type SSDDevice.Channel.6.Chip.3 Current system-logical time: 11456550 with event-logical time: 11490855
+src/nvm_chip/flash_memory/Flash_Chip.cpp:86 
+src/nvm_chip/flash_memory/Flash_Chip.cpp:92 
+src/nvm_chip/flash_memory/Flash_Chip.cpp:135 
+src/nvm_chip/flash_memory/Flash_Chip.cpp:145 
+src/nvm_chip/flash_memory/Flash_Chip.cpp:160 
+src/ssd/NVM_PHY_ONFI_NVDDR2.cpp:648 
+src/sim/Engine.cpp:126 RegisterEvent 11492391 0x6000033f0000
+src/ssd/ONFI_Channel_Base.h:25 
+src/sim/Engine.cpp:91 Processing Event of type SSDDevice.PHY Current system-logical time: 11490855 with event-logical time: 11492391
+src/ssd/NVM_PHY_ONFI_NVDDR2.cpp:345 **DieBookKeepingEntry** Free:0 Suspended: 0 Expected_finish_time: 11490855 RemainingExecTime: 18446744073709551615 DieInterleavedTime: 18446744073709551615
+ **ChipBookKeepingEntry** Status: 3 Expected_command_exec_finish_time: 11490855 Last_transfer_finish_time: 11415835 HasSuspend: 0 WaitingReadTXCount: 1 No_of_active_dies: 0
+
+src/ssd/NVM_PHY_ONFI_NVDDR2.cpp:409 
+src/ssd/NVM_PHY_ONFI_NVDDR2.cpp:327 
+src/ssd/NVM_PHY_ONFI.cpp:18 
+src/ssd/GC_and_WL_Unit_Base.cpp:50 
+src/ssd/GC_and_WL_Unit_Base.cpp:54 
+src/ssd/Flash_Block_Manager_Base.cpp:224 
+src/ssd/Flash_Block_Manager_Base.cpp:185 
+src/ssd/TSU_Base.h:49 
+src/ssd/GC_and_WL_Unit_Base.cpp:235 
+src/ssd/TSU_Base.h:60 
+src/ssd/TSU_Priority_OutOfOrder.cpp:475 
+src/ssd/TSU_Priority_OutOfOrder.cpp:445 
+src/ssd/TSU_Priority_OutOfOrder.cpp:475 
+src/ssd/TSU_Priority_OutOfOrder.cpp:445 
+src/ssd/TSU_Priority_OutOfOrder.cpp:475 
+src/ssd/TSU_Priority_OutOfOrder.cpp:445 
+src/ssd/TSU_Priority_OutOfOrder.cpp:475 
+src/ssd/TSU_Priority_OutOfOrder.cpp:445 
+src/ssd/TSU_Priority_OutOfOrder.cpp:475 
+src/ssd/TSU_Priority_OutOfOrder.cpp:445 
+src/ssd/TSU_Priority_OutOfOrder.cpp:475 
+src/ssd/TSU_Priority_OutOfOrder.cpp:445 
+src/ssd/TSU_Priority_OutOfOrder.cpp:475 
+src/ssd/TSU_Priority_OutOfOrder.cpp:445 
+src/ssd/TSU_Priority_OutOfOrder.cpp:475 
+src/ssd/TSU_Priority_OutOfOrder.cpp:445 
+src/ssd/TSU_Priority_OutOfOrder.cpp:475 
+src/ssd/TSU_Priority_OutOfOrder.cpp:445 
+src/ssd/TSU_Priority_OutOfOrder.cpp:475 
+src/ssd/TSU_Priority_OutOfOrder.cpp:445 
+src/ssd/TSU_Priority_OutOfOrder.cpp:475 
+src/ssd/TSU_Priority_OutOfOrder.cpp:445 
+src/ssd/TSU_Priority_OutOfOrder.cpp:475 
+src/ssd/TSU_Priority_OutOfOrder.cpp:445 
+src/ssd/TSU_Priority_OutOfOrder.cpp:475 
+src/ssd/TSU_Priority_OutOfOrder.cpp:445 
+src/ssd/TSU_Priority_OutOfOrder.cpp:475 
+src/ssd/TSU_Priority_OutOfOrder.cpp:445 
+src/ssd/TSU_Priority_OutOfOrder.cpp:475 
+src/ssd/TSU_Priority_OutOfOrder.cpp:445 
+src/ssd/TSU_Priority_OutOfOrder.cpp:475 
+src/ssd/TSU_Priority_OutOfOrder.cpp:445 
+src/ssd/TSU_Priority_OutOfOrder.cpp:475 
+src/ssd/TSU_Priority_OutOfOrder.cpp:445 
+src/ssd/TSU_Priority_OutOfOrder.cpp:475 
+src/ssd/TSU_Priority_OutOfOrder.cpp:445 
+src/ssd/TSU_Priority_OutOfOrder.cpp:475 
+src/ssd/TSU_Priority_OutOfOrder.cpp:445 
+src/ssd/../nvm_chip/flash_memory/Physical_Page_Address.h:36 
+src/sim/Engine.cpp:126 RegisterEvent 11517328 0x6000033f0000
+src/ssd/ONFI_Channel_Base.h:25 
+src/ssd/TSU_Priority_OutOfOrder.cpp:475 
+src/ssd/TSU_Priority_OutOfOrder.cpp:445 
+src/ssd/TSU_Priority_OutOfOrder.cpp:475 
+src/ssd/TSU_Priority_OutOfOrder.cpp:445 
+src/ssd/TSU_Priority_OutOfOrder.cpp:475 
+src/ssd/TSU_Priority_OutOfOrder.cpp:445 
+src/ssd/TSU_Priority_OutOfOrder.cpp:475 
+src/ssd/TSU_Priority_OutOfOrder.cpp:445 
+src/ssd/TSU_Priority_OutOfOrder.cpp:475 
+src/ssd/TSU_Priority_OutOfOrder.cpp:445 
+src/ssd/TSU_Priority_OutOfOrder.cpp:475 
+src/ssd/TSU_Priority_OutOfOrder.cpp:445 
+src/ssd/TSU_Priority_OutOfOrder.cpp:475 
+src/ssd/TSU_Priority_OutOfOrder.cpp:445 
+src/ssd/TSU_Priority_OutOfOrder.cpp:475 
+src/ssd/TSU_Priority_OutOfOrder.cpp:445 
+src/ssd/ONFI_Channel_Base.h:25 
+src/ssd/NVM_PHY_ONFI.cpp:33 
+src/ssd/TSU_Base.cpp:49 
+src/ssd/TSU_Base.h:97 
+src/ssd/TSU_Priority_OutOfOrder.cpp:475 
+src/ssd/TSU_Priority_OutOfOrder.cpp:445 
+src/ssd/TSU_Base.h:97 
+src/ssd/TSU_Priority_OutOfOrder.cpp:475 
+src/ssd/TSU_Priority_OutOfOrder.cpp:445 
+src/ssd/TSU_Base.h:97 
+src/ssd/TSU_Priority_OutOfOrder.cpp:475 
+src/ssd/TSU_Priority_OutOfOrder.cpp:445 
+src/ssd/TSU_Base.h:97 
+src/ssd/TSU_Priority_OutOfOrder.cpp:475 
+src/ssd/TSU_Priority_OutOfOrder.cpp:445 
+src/sim/Engine.cpp:91 Processing Event of type SSDDevice.PHY Current system-logical time: 11492391 with event-logical time: 11517328
+src/ssd/NVM_PHY_ONFI_NVDDR2.cpp:345 **DieBookKeepingEntry** Free:0 Suspended: 0 Expected_finish_time: 12267328 RemainingExecTime: 18446744073709551615 DieInterleavedTime: 18446744073709551615
+ **ChipBookKeepingEntry** Status: 2 Expected_command_exec_finish_time: 12267328 Last_transfer_finish_time: 11517328 HasSuspend: 0 WaitingReadTXCount: 0 No_of_active_dies: 0
+
+src/ssd/NVM_PHY_ONFI_NVDDR2.cpp:388 
+src/nvm_chip/flash_memory/Flash_Chip.cpp:106 
+src/sim/Engine.cpp:126 RegisterEvent 12267328 0x6000038f0e00
+src/ssd/NVM_PHY_ONFI_NVDDR2.cpp:391 
+src/ssd/NVM_PHY_ONFI_NVDDR2.cpp:402 
+src/ssd/ONFI_Channel_Base.h:25 
+src/ssd/NVM_PHY_ONFI.cpp:33 
+src/ssd/TSU_Base.cpp:49 
+src/ssd/TSU_Base.h:97 
+src/ssd/TSU_Priority_OutOfOrder.cpp:475 
+src/ssd/TSU_Priority_OutOfOrder.cpp:445 
+src/ssd/TSU_Base.h:97 
+src/ssd/TSU_Priority_OutOfOrder.cpp:475 
+src/ssd/TSU_Priority_OutOfOrder.cpp:445 
+src/ssd/TSU_Base.h:97 
+src/ssd/TSU_Priority_OutOfOrder.cpp:475 
+src/ssd/TSU_Priority_OutOfOrder.cpp:445 
+src/ssd/TSU_Base.h:97 
+src/ssd/TSU_Priority_OutOfOrder.cpp:475 
+src/ssd/TSU_Priority_OutOfOrder.cpp:445 
+src/sim/Engine.cpp:91 Processing Event of type SSDDevice.Channel.4.Chip.2 Current system-logical time: 11517328 with event-logical time: 12267328
+src/nvm_chip/flash_memory/Flash_Chip.cpp:86 
+src/nvm_chip/flash_memory/Flash_Chip.cpp:92 
+src/nvm_chip/flash_memory/Flash_Chip.cpp:135 
+src/nvm_chip/flash_memory/Flash_Chip.cpp:145 
+src/nvm_chip/flash_memory/Flash_Chip.cpp:172 
+src/ssd/NVM_PHY_ONFI.cpp:18 
+src/ssd/GC_and_WL_Unit_Base.cpp:50 
+src/ssd/GC_and_WL_Unit_Base.cpp:58 
+src/ssd/Flash_Block_Manager_Base.cpp:217 
+src/ssd/Flash_Block_Manager_Base.cpp:185 
+src/ssd/NVM_PHY_ONFI.cpp:33 
+src/ssd/TSU_Base.cpp:49 
+src/ssd/TSU_Base.h:97 
+src/ssd/TSU_Priority_OutOfOrder.cpp:475 
+src/ssd/TSU_Priority_OutOfOrder.cpp:445 
+src/ssd/TSU_Base.h:97 
+src/ssd/TSU_Priority_OutOfOrder.cpp:475 
+src/ssd/TSU_Priority_OutOfOrder.cpp:445 
+src/ssd/TSU_Base.h:97 
+src/ssd/TSU_Priority_OutOfOrder.cpp:475 
+src/ssd/TSU_Priority_OutOfOrder.cpp:445 
+src/ssd/TSU_Base.h:97 
+src/ssd/TSU_Priority_OutOfOrder.cpp:475 
+src/ssd/TSU_Priority_OutOfOrder.cpp:445 
+src/sim/Engine.cpp:105 
+
+**END OF FILE**
