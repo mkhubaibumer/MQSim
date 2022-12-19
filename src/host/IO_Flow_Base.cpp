@@ -308,6 +308,7 @@ IO_Flow_Base::IO_Flow_Base(const sim_object_id_type &name, uint16_t flow_id, LHA
 			}
 			STAT_transferred_bytes_write += request->LBA_count * SECTOR_SIZE_IN_BYTE;
 		}
+        TRACE_LINE(request->str());
 
 		delete request;
 
@@ -331,6 +332,7 @@ IO_Flow_Base::IO_Flow_Base(const sim_object_id_type &name, uint16_t flow_id, LHA
 				}
 				new_req->Enqueue_time = Simulator->Time();
 				pcie_root_complex->Write_to_device(nvme_queue_pair.Submission_tail_register_address_on_device, nvme_queue_pair.Submission_queue_tail);//Based on NVMe protocol definition, the updated tail pointer should be informed to the device
+                TRACE_LINE(new_req->str());
 			} else {
 				break;
 			}

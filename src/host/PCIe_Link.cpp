@@ -29,6 +29,7 @@ namespace Host_Components
 	{
 		switch (message->Destination) {
 			case PCIe_Destination_Type::HOST://Message from SSD device to the host
+                TRACE_LINE("");
 				Message_buffer_toward_root_complex.push(message);
 				if (Message_buffer_toward_root_complex.size() > 1) {//There are active transfers
 					return;
@@ -36,6 +37,7 @@ namespace Host_Components
 				Simulator->Register_sim_event(Simulator->Time() + estimate_transfer_time(message), this, (void*)(intptr_t)PCIe_Destination_Type::HOST, static_cast<int>(PCIe_Link_Event_Type::DELIVER));
 				break;
 			case PCIe_Destination_Type::DEVICE://Message from Host to the SSD device
+                TRACE_LINE("");
 				Message_buffer_toward_ssd_device.push(message);
 				if (Message_buffer_toward_ssd_device.size() > 1) {
 					return;
@@ -43,6 +45,7 @@ namespace Host_Components
 				Simulator->Register_sim_event(Simulator->Time() + estimate_transfer_time(message), this, (void*)(intptr_t)PCIe_Destination_Type::DEVICE, static_cast<int>(PCIe_Link_Event_Type::DELIVER));
 				break;
 			default:
+                TRACE_LINE("");
 				break;
 		}
 	}
@@ -55,6 +58,7 @@ namespace Host_Components
 	{
 		PCIe_Message* message = NULL;
 		PCIe_Destination_Type destination = (PCIe_Destination_Type)(intptr_t)event->Parameters;
+        TRACE_LINE("Destination: " << ((destination == PCIe_Destination_Type::HOST) ? "HOST" : "DEVICE"));
 		switch (destination) {
 			case PCIe_Destination_Type::HOST:
 				message = Message_buffer_toward_root_complex.front();

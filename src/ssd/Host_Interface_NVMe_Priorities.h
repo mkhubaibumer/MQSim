@@ -2,6 +2,7 @@
 #define HOST_INTERFACE_NVME_PRIORITIES_H_
 
 #include <stdexcept>
+#include <Sim_Defs.h>
 
 class IO_Flow_Priority_Class
 {

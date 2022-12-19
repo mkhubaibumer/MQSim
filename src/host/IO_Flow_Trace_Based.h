@@ -6,6 +6,7 @@
 #include <fstream>
 #include "IO_Flow_Base.h"
 #include "ASCII_Trace_Definition.h"
+#include "lib/libmqsim.h"
 
 namespace Host_Components
 {
@@ -26,6 +27,11 @@ public:
 	void Execute_simulator_event(MQSimEngine::Sim_Event *);
 	void Get_statistics(Utils::Workload_Statistics &stats, LPA_type (*Convert_host_logical_address_to_device_address)(LHA_type lha),
 						page_status_type (*Find_NVM_subunit_access_bitmap)(LHA_type lha));
+
+#ifdef BUILD_LIB
+    Host_IO_Request* Generate_Sim_Request(request_type_t *req);
+    void Execute_simulator_event(bool dummy, request_type_t *req);
+#endif
 
 private:
 	Trace_Time_Unit time_unit;

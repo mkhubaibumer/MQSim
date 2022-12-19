@@ -61,6 +61,7 @@ namespace SSD_Components
 
 	void Data_Cache_Manager_Base::handle_user_request_arrived_signal(User_Request* user_request)
 	{
+        TRACE_LINE("");
 		_my_instance->process_new_user_request(user_request);
 	}
 

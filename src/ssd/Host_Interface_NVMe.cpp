@@ -75,6 +75,7 @@ inline void Input_Stream_Manager_NVMe::Handle_new_arrived_request(User_Request *
 	}
 	if (request->Type == UserRequestType::READ)
 	{
+        TRACE_LINE("");
 		((Input_Stream_NVMe *)input_streams[request->Stream_id])->Waiting_user_requests.push_back(request);
 		((Input_Stream_NVMe *)input_streams[request->Stream_id])->STAT_number_of_read_requests++;
 		segment_user_request(request);
@@ -83,6 +84,7 @@ inline void Input_Stream_Manager_NVMe::Handle_new_arrived_request(User_Request *
 	}
 	else
 	{ //This is a write request
+        TRACE_LINE("");
 		((Input_Stream_NVMe *)input_streams[request->Stream_id])->Waiting_user_requests.push_back(request);
 		((Input_Stream_NVMe *)input_streams[request->Stream_id])->STAT_number_of_write_requests++;
 		((Host_Interface_NVMe *)host_interface)->request_fetch_unit->Fetch_write_data(request);
@@ -91,6 +93,7 @@ inline void Input_Stream_Manager_NVMe::Handle_new_arrived_request(User_Request *
 
 inline void Input_Stream_Manager_NVMe::Handle_arrived_write_data(User_Request *request)
 {
+    TRACE_LINE("");
 	segment_user_request(request);
 	((Host_Interface_NVMe *)host_interface)->broadcast_user_request_arrival_signal(request);
 }
@@ -169,6 +172,7 @@ inline void Input_Stream_Manager_NVMe::inform_host_request_completed(stream_id_t
 
 void Input_Stream_Manager_NVMe::segment_user_request(User_Request *user_request)
 {
+    TRACE_LINE("");
 	LHA_type lsa = user_request->Start_LBA;
 	LHA_type lsa2 = user_request->Start_LBA;
 	unsigned int req_size = user_request->SizeInSectors;
@@ -181,6 +185,7 @@ void Input_Stream_Manager_NVMe::segment_user_request(User_Request *user_request)
 		//Check if LSA is in the correct range allocted to the stream
 		if (lsa < ((Input_Stream_NVMe *)input_streams[user_request->Stream_id])->Start_logical_sector_address || lsa > ((Input_Stream_NVMe *)input_streams[user_request->Stream_id])->End_logical_sector_address)
 		{
+            TRACE_LINE("");
 			lsa = ((Input_Stream_NVMe *)input_streams[user_request->Stream_id])->Start_logical_sector_address + (lsa % (((Input_Stream_NVMe *)input_streams[user_request->Stream_id])->End_logical_sector_address - (((Input_Stream_NVMe *)input_streams[user_request->Stream_id])->Start_logical_sector_address)));
 		}
 		LHA_type internal_lsa = lsa - ((Input_Stream_NVMe *)input_streams[user_request->Stream_id])->Start_logical_sector_address; //For each flow, all lsa's should be translated into a range starting from zero
@@ -188,6 +193,7 @@ void Input_Stream_Manager_NVMe::segment_user_request(User_Request *user_request)
 		transaction_size = host_interface->sectors_per_page - (unsigned int)(lsa % host_interface->sectors_per_page);
 		if (handled_sectors_count + transaction_size >= req_size)
 		{
+            TRACE_LINE("");
 			transaction_size = req_size - handled_sectors_count;
 		}
 		LPA_type lpa = internal_lsa / host_interface->sectors_per_page;
@@ -197,6 +203,7 @@ void Input_Stream_Manager_NVMe::segment_user_request(User_Request *user_request)
 
 		if (user_request->Type == UserRequestType::READ)
 		{
+            TRACE_LINE("");
 			NVM_Transaction_Flash_RD *transaction = new NVM_Transaction_Flash_RD(Transaction_Source_Type::USERIO, user_request->Stream_id,
 																				 transaction_size * SECTOR_SIZE_IN_BYTE, lpa, NO_PPA, user_request, user_request->Priority_class, 0, access_status_bitmap, CurrentTimeStamp);
 			user_request->Transaction_list.push_back(transaction);
@@ -204,6 +211,7 @@ void Input_Stream_Manager_NVMe::segment_user_request(User_Request *user_request)
 		}
 		else
 		{ //user_request->Type == UserRequestType::WRITE
+            TRACE_LINE("");
 			NVM_Transaction_Flash_WR *transaction = new NVM_Transaction_Flash_WR(Transaction_Source_Type::USERIO, user_request->Stream_id,
 																				 transaction_size * SECTOR_SIZE_IN_BYTE, lpa, user_request, user_request->Priority_class, 0, access_status_bitmap, CurrentTimeStamp);
 			user_request->Transaction_list.push_back(transaction);
@@ -309,10 +317,12 @@ void Request_Fetch_Unit_NVMe::Process_pcie_read_message(uint64_t address, void *
 		default:
 			throw std::invalid_argument("NVMe command is not supported!");
 		}
+        TRACE_LINE("Opcode: " << sqe->Opcode << " " << hi->str() << " " << new_request->str());
 		((Input_Stream_Manager_NVMe *)(hi->input_stream_manager))->Handle_new_arrived_request(new_request);
 		break;
 	}
 	case DMA_Req_Type::WRITE_DATA:
+        TRACE_LINE("");
 		COPYDATA(((User_Request *)dma_req_item->object)->Data, payload, payload_size);
 		((Input_Stream_Manager_NVMe *)(hi->input_stream_manager))->Handle_arrived_write_data((User_Request *)dma_req_item->object);
 		break;

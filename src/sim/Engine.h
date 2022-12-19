@@ -16,6 +16,7 @@ namespace MQSimEngine {
 		{
 			this->_EventList = new EventTree;
 			started = false;
+            std::freopen("flowTrace.txt", "w", stderr);
 		}
 
 		~Engine() {

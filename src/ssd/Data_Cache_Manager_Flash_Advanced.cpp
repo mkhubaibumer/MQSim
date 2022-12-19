@@ -194,21 +194,26 @@ namespace SSD_Components
 		if (user_request->Type == UserRequestType::READ) {
 			switch (caching_mode_per_input_stream[user_request->Stream_id]) {
 				case Caching_Mode::TURNED_OFF:
+                    TRACE_LINE("");
 					static_cast<FTL*>(nvm_firmware)->Address_Mapping_Unit->Translate_lpa_to_ppa_and_dispatch(user_request->Transaction_list);
 					return;
 				case Caching_Mode::WRITE_CACHE:
 				case Caching_Mode::READ_CACHE:
 				case Caching_Mode::WRITE_READ_CACHE:
 				{
+                    TRACE_LINE("");
 					std::list<NVM_Transaction*>::iterator it = user_request->Transaction_list.begin();
 					while (it != user_request->Transaction_list.end()) {
 						NVM_Transaction_Flash_RD* tr = (NVM_Transaction_Flash_RD*)(*it);
 						if (per_stream_cache[tr->Stream_id]->Exists(tr->Stream_id, tr->LPA)) {
+                            TRACE_LINE("");
 							page_status_type available_sectors_bitmap = per_stream_cache[tr->Stream_id]->Get_slot(tr->Stream_id, tr->LPA).State_bitmap_of_existing_sectors & tr->read_sectors_bitmap;
 							if (available_sectors_bitmap == tr->read_sectors_bitmap) {
+                                TRACE_LINE("");
 								user_request->Sectors_serviced_from_cache += count_sector_no_from_status_bitmap(tr->read_sectors_bitmap);
 								user_request->Transaction_list.erase(it++);//the ++ operation should happen here, otherwise the iterator will be part of the list after erasing it from the list
 							} else if (available_sectors_bitmap != 0) {
+                                TRACE_LINE("");
 								user_request->Sectors_serviced_from_cache += count_sector_no_from_status_bitmap(available_sectors_bitmap);
 								tr->read_sectors_bitmap = (tr->read_sectors_bitmap & ~available_sectors_bitmap);
 								tr->Data_and_metadata_size_in_byte -= count_sector_no_from_status_bitmap(available_sectors_bitmap) * SECTOR_SIZE_IN_BYTE;
@@ -222,6 +227,7 @@ namespace SSD_Components
 					}
 
 					if (user_request->Sectors_serviced_from_cache > 0) {
+                        TRACE_LINE("");
 						Memory_Transfer_Info* transfer_info = new Memory_Transfer_Info;
 						transfer_info->Size_in_bytes = user_request->Sectors_serviced_from_cache * SECTOR_SIZE_IN_BYTE;
 						transfer_info->Related_request = user_request;
@@ -272,6 +278,7 @@ namespace SSD_Components
 		std::list<NVM_Transaction*>* evicted_cache_slots = new std::list<NVM_Transaction*>;
 		std::list<NVM_Transaction*> writeback_transactions;
 		auto it = user_request->Transaction_list.begin();
+        TRACE_LINE("");
 
 		int queue_id = user_request->Stream_id;
 		if (shared_dram_request_queue) {
@@ -322,6 +329,7 @@ namespace SSD_Components
 
 		//Issue memory read for cache evictions
 		if (evicted_cache_slots->size() > 0) {
+            TRACE_LINE("");
 			Memory_Transfer_Info* read_transfer_info = new Memory_Transfer_Info;
 			read_transfer_info->Size_in_bytes = cache_eviction_read_size_in_sectors * SECTOR_SIZE_IN_BYTE;
 			read_transfer_info->Related_request = evicted_cache_slots;
@@ -332,6 +340,7 @@ namespace SSD_Components
 
 		//Issue memory write to write data to DRAM
 		if (dram_write_size_in_sectors) {
+            TRACE_LINE("");
 			Memory_Transfer_Info* write_transfer_info = new Memory_Transfer_Info;
 			write_transfer_info->Size_in_bytes = dram_write_size_in_sectors * SECTOR_SIZE_IN_BYTE;
 			write_transfer_info->Related_request = user_request;
@@ -342,6 +351,8 @@ namespace SSD_Components
 
 		//If any writeback should be performed, then issue flash write transactions
 		if (writeback_transactions.size() > 0) {
+            TRACE_LINE("");
+
 					static_cast<FTL*>(nvm_firmware)->Address_Mapping_Unit->Translate_lpa_to_ppa_and_dispatch(writeback_transactions);
 		}
 		
@@ -516,13 +527,18 @@ namespace SSD_Components
 
 	void Data_Cache_Manager_Flash_Advanced::service_dram_access_request(Memory_Transfer_Info* request_info)
 	{
+        TRACE_LINE("");
 		if (memory_channel_is_busy) {
+            TRACE_LINE("");
 			if(shared_dram_request_queue) {
+                TRACE_LINE("");
 				dram_execution_queue[0].push(request_info);
 			} else {
+                TRACE_LINE("");
 				dram_execution_queue[request_info->Stream_id].push(request_info);
 			}
 		} else {
+            TRACE_LINE("");
 			Simulator->Register_sim_event(Simulator->Time() + estimate_dram_access_time(request_info->Size_in_bytes, dram_row_size,
 				dram_busrt_size, dram_burst_transfer_time_ddr, dram_tRCD, dram_tCL, dram_tRP),
 				this, request_info, static_cast<int>(request_info->next_event_type));

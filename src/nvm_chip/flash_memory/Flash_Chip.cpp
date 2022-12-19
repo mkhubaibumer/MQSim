@@ -83,11 +83,13 @@ namespace NVM
 		
 		void Flash_Chip::Execute_simulator_event(MQSimEngine::Sim_Event* ev)
 		{
+			TRACE_LINE("");
 			Chip_Sim_Event_Type eventType = (Chip_Sim_Event_Type)ev->Type;
 			Flash_Command* command = (Flash_Command*)ev->Parameters;
 
 			switch (eventType) {
 				case Chip_Sim_Event_Type::COMMAND_FINISHED:
+					TRACE_LINE("");
 					finish_command_execution(command);
 					break;
 			}
@@ -101,6 +103,7 @@ namespace NVM
 
 		void Flash_Chip::start_command_execution(Flash_Command* command)
 		{
+			TRACE_LINE("");
 			Die* targetDie = Dies[command->Address[0].DieID];
 
 			//If this is a simple command (not multiplane) then there should be only one address
@@ -129,6 +132,7 @@ namespace NVM
 
 		void Flash_Chip::finish_command_execution(Flash_Command* command)
 		{
+			TRACE_LINE("");
 			Die* targetDie = Dies[command->Address[0].DieID];
 
 			targetDie->STAT_TotalReadTime += Get_command_execution_latency(command->CommandCode, command->Address[0].PageID);
@@ -138,9 +142,11 @@ namespace NVM
 			targetDie->Status = DieStatus::IDLE;
 			this->idleDieNo++;
 			if (idleDieNo == die_no) {
+				TRACE_LINE("");
 				this->status = Internal_Status::IDLE;
 				STAT_totalExecTime += Simulator->Time() - executionStartTime;
 				if (this->lastTransferStart != INVALID_TIME) {
+					TRACE_LINE("");
 					STAT_totalOverlappedXferExecTime += Simulator->Time() - lastTransferStart;
 				}
 			}
@@ -151,6 +157,7 @@ namespace NVM
 				case CMD_READ_PAGE_MULTIPLANE:
 				case CMD_READ_PAGE_COPYBACK:
 				case CMD_READ_PAGE_COPYBACK_MULTIPLANE:
+					TRACE_LINE("");
 					DEBUG("Channel " << this->ChannelID << " Chip " << this->ChipID << "- Finished executing read command")
 					for (unsigned int planeCntr = 0; planeCntr < command->Address.size(); planeCntr++) {
 						STAT_readCount++;
@@ -162,6 +169,7 @@ namespace NVM
 				case CMD_PROGRAM_PAGE_MULTIPLANE:
 				case CMD_PROGRAM_PAGE_COPYBACK:
 				case CMD_PROGRAM_PAGE_COPYBACK_MULTIPLANE:
+					TRACE_LINE("");
 					DEBUG("Channel " << this->ChannelID << " Chip " << this->ChipID << "- Finished executing program command")
 					for (unsigned int planeCntr = 0; planeCntr < command->Address.size(); planeCntr++) {
 						STAT_progamCount++;
@@ -172,6 +180,7 @@ namespace NVM
 				case CMD_ERASE_BLOCK:
 				case CMD_ERASE_BLOCK_MULTIPLANE:
 				{
+					TRACE_LINE("");
 					for (unsigned int planeCntr = 0; planeCntr < command->Address.size(); planeCntr++) {
 						STAT_eraseCount++;
 						targetDie->Planes[command->Address[planeCntr].PlaneID]->Erase_count++;
@@ -185,6 +194,7 @@ namespace NVM
 					break;
 				}
 				default:
+					TRACE_LINE("");
 					PRINT_ERROR("Flash chip " << ID() << ": unhandled flash command type!")
 			}
 

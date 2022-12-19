@@ -112,6 +112,7 @@ namespace SSD_Components
 
 		void Consume_pcie_message(Host_Components::PCIe_Message* message)
 		{
+            TRACE_LINE("");
 			if (message->Type == Host_Components::PCIe_Message_Type::READ_COMP) {
 				request_fetch_unit->Process_pcie_read_message(message->Address, message->Payload, message->Payload_size);
 			} else {

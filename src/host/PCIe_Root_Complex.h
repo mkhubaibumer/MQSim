@@ -25,13 +25,16 @@ namespace Host_Components
 			switch (messages->Type)
 			{
 			case PCIe_Message_Type::READ_REQ:
+                TRACE_LINE("Message Type READ_REQ");
 				Read_from_memory(messages->Address, (unsigned int)(intptr_t)messages->Payload);
 				break;
 			case PCIe_Message_Type::WRITE_REQ:
+                TRACE_LINE("Message Type WRITE_REQ");
 				Write_to_memory(messages->Address, messages->Payload);
 				break;
 			default:
-				break;
+                TRACE_LINE("Message Type default (not good - maybe!)");
+                break;
 			}
 			delete messages;
 		}

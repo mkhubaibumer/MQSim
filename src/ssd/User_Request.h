@@ -7,6 +7,7 @@
 #include "../sim/Sim_Defs.h"
 #include "Host_Interface_Defs.h"
 #include "NVM_Transaction.h"
+#include <sstream>
 
 namespace SSD_Components
 {
@@ -32,6 +33,16 @@ namespace SSD_Components
 		bool ToBeIgnored;
 		void* IO_command_info;//used to store host I/O command info
 		void* Data;
+
+        [[nodiscard]] std::string str() const {
+            std::ostringstream st;
+            st << "**User_Request** Priority Class: " << Priority_class << " ID: " << ID
+            << " Start LBA: " << Start_LBA << " STAT Init Time: " << STAT_InitiationTime
+            << " STAT Response Time: " << STAT_ResponseTime << " Sectors from Cache" << Sectors_serviced_from_cache
+            << " Size Bytes: " << Size_in_byte << " Size Sectors: " << SizeInSectors
+            << " Type: " << (int)Type << " Stream ID: " << Stream_id << "\n";
+            return st.str();
+        }
 	private:
 		static unsigned int lastId;
 	};

@@ -15,11 +15,13 @@ namespace Host_Components
 			switch (SSD_device_type) {
 				case HostInterface_Types::NVME:
 				{
+                    TRACE_LINE("");
 					unsigned int flow_id = QUEUE_ID_TO_FLOW_ID(((Completion_Queue_Entry*)payload)->SQ_ID);
 					((*IO_flows)[flow_id])->NVMe_consume_io_request((Completion_Queue_Entry*)payload);
 					break;
 				}
 				case HostInterface_Types::SATA:
+                    TRACE_LINE("");
 					sata_hba->SATA_consume_io_request((Completion_Queue_Entry*)payload);
 					break;
 				default:
@@ -51,6 +53,7 @@ namespace Host_Components
 			//nothing to do
 			new_pcie_message->Payload_size = read_size;
 			new_pcie_message->Payload = NULL;//No need to transfer data in the standalone mode of MQSim
+            TRACE_LINE(new_pcie_message->str());
 		} else {
 			switch (SSD_device_type) {
 				case HostInterface_Types::NVME:
@@ -65,6 +68,7 @@ namespace Host_Components
 					new_pcie_message->Payload_size = sizeof(Submission_Queue_Entry);
 					break;
 			}
+            TRACE_LINE("SSD Device Type: " << (int)SSD_device_type << " " << new_pcie_message->str());
 		}
 
 		pcie_link->Deliver(new_pcie_message);

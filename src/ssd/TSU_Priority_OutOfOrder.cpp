@@ -438,9 +438,11 @@ Flash_Transaction_Queue *TSU_Priority_OutOfOrder::get_next_write_service_queue(N
 {
     if (UserWriteTRQueue[chip->ChannelID][chip->ChipID][IO_Flow_Priority_Class::URGENT].size() > 0)
     {
+        TRACE_LINE("");
         return &UserWriteTRQueue[chip->ChannelID][chip->ChipID][IO_Flow_Priority_Class::URGENT];
     }
 
+    TRACE_LINE("");
     int numberOfTries = 0;
     while (numberOfTries < IO_Flow_Priority_Class::get_scheduling_weight(IO_Flow_Priority_Class::HIGH))
     {
@@ -470,6 +472,7 @@ Flash_Transaction_Queue *TSU_Priority_OutOfOrder::get_next_write_service_queue(N
 
 bool TSU_Priority_OutOfOrder::service_write_transaction(NVM::FlashMemory::Flash_Chip *chip)
 {
+    TRACE_LINE("");
     Flash_Transaction_Queue *sourceQueue1 = NULL, *sourceQueue2 = NULL;
 
     //If flash transactions related to GC are prioritzed (non-preemptive execution mode of GC), then GC queues are checked first

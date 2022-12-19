@@ -41,7 +41,7 @@ namespace MQSimEngine
 
 		// the number of nodes contained in the tree
 		int Count;
-		//  sentinelNode is convenient way of indicating a leaf node.
+		//  sentinelNode is a convenient way of indicating a leaf node.
 		static EventTreeNode* SentinelNode;
 		void Add(sim_time_type key, Sim_Event* data);
 		void RotateLeft(EventTreeNode* x);

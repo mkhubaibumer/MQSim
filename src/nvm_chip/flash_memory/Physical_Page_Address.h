@@ -33,6 +33,7 @@ namespace NVM
 
 			Physical_Page_Address(const Physical_Page_Address& addressToCopy)
 			{
+                TRACE_LINE("");
 				ChannelID = addressToCopy.ChannelID;
 				ChipID = addressToCopy.ChipID;
 				DieID = addressToCopy.DieID;

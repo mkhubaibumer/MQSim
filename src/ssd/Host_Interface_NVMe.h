@@ -100,6 +100,14 @@ public:
 private:
 	uint16_t submission_queue_depth, completion_queue_depth;
 	unsigned int no_of_input_streams;
+
+    [[nodiscard]] std::string str() const {
+        std::ostringstream st;
+        st << "**Host_Interface_NVMe** Submission Q Depth: " << submission_queue_depth
+        << " Completion Q Depth: " << completion_queue_depth
+        << " # input streams: " << no_of_input_streams << "\n";
+        return st.str();
+    }
 };
 } // namespace SSD_Components
 

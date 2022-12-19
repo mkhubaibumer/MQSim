@@ -86,6 +86,10 @@ namespace MQSimEngine
 			EventTreeNode* minNode = _EventList->Get_min_node();
 			ev = minNode->FirstSimEvent;
 
+            TRACE_LINE("Processing Event of type " << ev->Target_sim_object->ID()
+                        << " Current system-logical time: " << _sim_time
+                        << " with event-logical time: " << ev->Fire_time);
+
 			_sim_time = ev->Fire_time;
 
 			while (ev != NULL) {
@@ -98,6 +102,7 @@ namespace MQSimEngine
 			}
 			_EventList->Remove(minNode);
 		}
+        TRACE_LINE("\n\n**END OF FILE**");
 	}
 
 	void Engine::Stop_simulation()
@@ -118,6 +123,7 @@ namespace MQSimEngine
 	Sim_Event* Engine::Register_sim_event(sim_time_type fireTime, Sim_Object* targetObject, void* parameters, int type)
 	{
 		Sim_Event* ev = new Sim_Event(fireTime, targetObject, parameters, type);
+        TRACE_LINE("RegisterEvent " << fireTime << " " << targetObject);
 		DEBUG("RegisterEvent " << fireTime << " " << targetObject)
 		_EventList->Insert_sim_event(ev);
 		return ev;

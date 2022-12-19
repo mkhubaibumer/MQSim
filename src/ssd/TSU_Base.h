@@ -46,6 +46,7 @@ public:
 		*/
 	void Prepare_for_transaction_submit()
 	{
+        TRACE_LINE("");
 		opened_scheduling_reqs++;
 		if (opened_scheduling_reqs > 1)
 		{
@@ -56,6 +57,7 @@ public:
 
 	void Submit_transaction(NVM_Transaction_Flash *transaction)
 	{
+        TRACE_LINE("");
 		transaction_receive_slots.push_back(transaction);
 	}
 
@@ -92,6 +94,7 @@ protected:
 	int opened_scheduling_reqs;
 	void process_chip_requests(NVM::FlashMemory::Flash_Chip* chip)
 	{
+        TRACE_LINE("");
 		if (!_my_instance->service_read_transaction(chip)) {
 			if (!_my_instance->service_write_transaction(chip)) {
 				_my_instance->service_erase_transaction(chip);

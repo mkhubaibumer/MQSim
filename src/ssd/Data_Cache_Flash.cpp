@@ -92,6 +92,7 @@ namespace SSD_Components
 
 	void Data_Cache_Flash::Change_slot_status_to_writeback(const stream_id_type stream_id, const LPA_type lpn)
 	{
+        TRACE_LINE("");
 		LPA_type key = LPN_TO_UNIQUE_KEY(stream_id, lpn);
 		auto it = slots.find(key);
 		assert(it != slots.end());
@@ -125,7 +126,8 @@ namespace SSD_Components
 		const data_timestamp_type timestamp, const page_status_type state_bitmap_of_write_sectors)
 	{
 		LPA_type key = LPN_TO_UNIQUE_KEY(stream_id, lpn);
-		
+        TRACE_LINE("");
+
 		if (slots.find(key) != slots.end()) {
 			throw std::logic_error("Duplicate lpn insertion into data cache!!");
 		}

@@ -45,6 +45,7 @@ namespace NVM
 			}
 			void EndCMDXfer(Flash_Command* command)//End transferring write data to the Flash chip
 			{
+                TRACE_LINE("");
 				this->STAT_totalXferTime += (Simulator->Time() - this->lastTransferStart);
 				if (this->idleDieNo != die_no)
 					STAT_totalOverlappedXferExecTime += (Simulator->Time() - lastTransferStart);

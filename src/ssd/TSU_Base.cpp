@@ -46,6 +46,7 @@ namespace SSD_Components
 
 	void TSU_Base::handle_channel_idle_signal(flash_channel_ID_type channelID)
 	{
+        TRACE_LINE("");
 		for (unsigned int i = 0; i < _my_instance->chip_no_per_channel; i++) {
 			//The TSU does not check if the chip is idle or not since it is possible to suspend a busy chip and issue a new command
 			_my_instance->process_chip_requests(_my_instance->_NVMController->Get_chip(channelID, _my_instance->Round_robin_turn_of_channel[channelID]));

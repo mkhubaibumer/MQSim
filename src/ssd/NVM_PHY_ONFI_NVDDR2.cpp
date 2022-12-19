@@ -324,6 +324,7 @@ namespace SSD_Components {
 
 	void copy_read_data_to_transaction(NVM_Transaction_Flash_RD* read_transaction, NVM::FlashMemory::Flash_Command* command)
 	{
+        TRACE_LINE("");
 		int i = 0;
 		for (auto &address : command->Address) {
 			if (address.PlaneID == read_transaction->Address.PlaneID) {
@@ -341,9 +342,11 @@ namespace SSD_Components {
 		NVM::FlashMemory::Flash_Chip* targetChip = targetChannel->Chips[dieBKE->ActiveTransactions.front()->Address.ChipID];
 		ChipBookKeepingEntry *chipBKE = &bookKeepingTable[channel_id][targetChip->ChipID];
 
+        TRACE_LINE(dieBKE->str() << " " << chipBKE->str());
 		switch ((NVDDR2_SimEventType)ev->Type) {
 			case NVDDR2_SimEventType::READ_CMD_ADDR_TRANSFERRED:
 				//DEBUG2("Chip " << targetChip->ChannelID << ", " << targetChip->ChipID << ", " << dieBKE->ActiveTransactions.front()->Address.DieID << ": READ_CMD_ADDR_TRANSFERRED ")
+                TRACE_LINE("");
 				targetChip->EndCMDXfer(dieBKE->ActiveCommand);
 				for (auto tr : dieBKE->ActiveTransactions) {
 					tr->STAT_execution_time = dieBKE->Expected_finish_time - Simulator->Time();
@@ -351,14 +354,17 @@ namespace SSD_Components {
 				chipBKE->OngoingDieCMDTransfers.pop();
 				chipBKE->No_of_active_dies++;
 				if (chipBKE->OngoingDieCMDTransfers.size() > 0) {
+                    TRACE_LINE("");
 					perform_interleaved_cmd_data_transfer(targetChip, chipBKE->OngoingDieCMDTransfers.front());
 					return;
 				} else {
+                    TRACE_LINE("");
 					chipBKE->Status = ChipStatus::READING;
 					targetChannel->SetStatus(BusChannelStatus::IDLE, targetChip);
 				}
 				break;
 			case NVDDR2_SimEventType::ERASE_SETUP_COMPLETED:
+                TRACE_LINE("");
 				//DEBUG2("Chip " << targetChip->ChannelID << ", " << targetChip->ChipID << ", " << dieBKE->ActiveTransactions.front()->Address.DieID << ": ERASE_SETUP_COMPLETED ")
 				targetChip->EndCMDXfer(dieBKE->ActiveCommand);
 				for (auto &tr : dieBKE->ActiveTransactions) {
@@ -367,9 +373,11 @@ namespace SSD_Components {
 				chipBKE->OngoingDieCMDTransfers.pop();
 				chipBKE->No_of_active_dies++;
 				if (chipBKE->OngoingDieCMDTransfers.size() > 0) {
+                    TRACE_LINE("");
 					perform_interleaved_cmd_data_transfer(targetChip, chipBKE->OngoingDieCMDTransfers.front());
 					return;
 				} else {
+                    TRACE_LINE("");
 					chipBKE->Status = ChipStatus::ERASING;
 					targetChannel->SetStatus(BusChannelStatus::IDLE, targetChip);
 				}
@@ -377,23 +385,28 @@ namespace SSD_Components {
 			case NVDDR2_SimEventType::PROGRAM_CMD_ADDR_DATA_TRANSFERRED:
 			case NVDDR2_SimEventType::PROGRAM_COPYBACK_CMD_ADDR_TRANSFERRED:
 				//DEBUG2("Chip " << targetChip->ChannelID << ", " << targetChip->ChipID << ", " << dieBKE->ActiveTransactions.front()->Address.DieID <<  ": PROGRAM_CMD_ADDR_DATA_TRANSFERRED " )
+                TRACE_LINE("");
 				targetChip->EndCMDDataInXfer(dieBKE->ActiveCommand);
 				for (auto &tr : dieBKE->ActiveTransactions) {
+                    TRACE_LINE("");
 					tr->STAT_execution_time = dieBKE->Expected_finish_time - Simulator->Time();
 				}
 				chipBKE->OngoingDieCMDTransfers.pop();
 				chipBKE->No_of_active_dies++;
 				if (chipBKE->OngoingDieCMDTransfers.size() > 0)
 				{
+                    TRACE_LINE("");
 					perform_interleaved_cmd_data_transfer(targetChip, chipBKE->OngoingDieCMDTransfers.front());
 					return;
 				} else {
+                    TRACE_LINE("");
 					chipBKE->Status = ChipStatus::WRITING;
 					targetChannel->SetStatus(BusChannelStatus::IDLE, targetChip);
 				}
 				break;
 			case NVDDR2_SimEventType::READ_DATA_TRANSFERRED:
 				//DEBUG2("Chip " << targetChip->ChannelID << ", " << targetChip->ChipID << ", " << dieBKE->ActiveTransactions.front()->Address.DieID << ": READ_DATA_TRANSFERRED ")
+                TRACE_LINE("");
 				targetChip->EndDataOutXfer(dieBKE->ActiveCommand);
 				copy_read_data_to_transaction((NVM_Transaction_Flash_RD*)dieBKE->ActiveTransfer, dieBKE->ActiveCommand);
 	#if 0
@@ -429,19 +442,23 @@ namespace SSD_Components {
 				targetChannel->SetStatus(BusChannelStatus::IDLE, targetChip);
 				break;
 			default:
+                TRACE_LINE("");
 				PRINT_ERROR("Unknown simulation event specified for NVM_PHY_ONFI_NVDDR2!")
 		}
 
 		/* Copyback requests are prioritized over other type of requests since they need very short transfer time.
 		In addition, they are just used for GC purpose. */
 		if (WaitingCopybackWrites[channel_id].size() > 0) {
+            TRACE_LINE("");
 			DieBookKeepingEntry* waitingBKE = WaitingCopybackWrites[channel_id].front();
 			targetChip = channels[channel_id]->Chips[waitingBKE->ActiveTransactions.front()->Address.ChipID];
 			ChipBookKeepingEntry* waitingChipBKE = &bookKeepingTable[channel_id][targetChip->ChipID];
 			if (waitingBKE->ActiveTransactions.size() > 1) {
+                TRACE_LINE("");
 				Stats::IssuedMultiplaneCopybackProgramCMD++;
 				waitingBKE->ActiveCommand->CommandCode = CMD_PROGRAM_PAGE_COPYBACK_MULTIPLANE;
 			} else {
+                TRACE_LINE("");
 				Stats::IssuedCopybackProgramCMD++;
 				waitingBKE->ActiveCommand->CommandCode = CMD_PROGRAM_PAGE_COPYBACK;
 			}
@@ -460,8 +477,11 @@ namespace SSD_Components {
 			WaitingCopybackWrites[channel_id].pop_front();
 			channels[channel_id]->SetStatus(BusChannelStatus::BUSY, targetChip);
 
+            TRACE_LINE(waitingBKE->str() << " " << waitingChipBKE->str());
+
 			return;
 		} else if (WaitingMappingRead_TX[channel_id].size() > 0) {
+            TRACE_LINE("");
 			NVM_Transaction_Flash_RD* waitingTR = (NVM_Transaction_Flash_RD*)WaitingMappingRead_TX[channel_id].front();
 			WaitingMappingRead_TX[channel_id].pop_front();
 			transfer_read_data_from_chip(&bookKeepingTable[channel_id][waitingTR->Address.ChipID],
@@ -469,6 +489,7 @@ namespace SSD_Components {
 
 			return;
 		} else if (WaitingReadTX[channel_id].size() > 0) {
+            TRACE_LINE("");
 			NVM_Transaction_Flash_RD* waitingTR = (NVM_Transaction_Flash_RD*)WaitingReadTX[channel_id].front();
 			WaitingReadTX[channel_id].pop_front();
 			transfer_read_data_from_chip(&bookKeepingTable[channel_id][waitingTR->Address.ChipID],
@@ -476,6 +497,7 @@ namespace SSD_Components {
 
 			return;
 		} else if (WaitingGCRead_TX[channel_id].size() > 0) {
+            TRACE_LINE("");
 			NVM_Transaction_Flash_RD* waitingTR = (NVM_Transaction_Flash_RD*)WaitingGCRead_TX[channel_id].front();
 			WaitingGCRead_TX[channel_id].pop_front();
 			transfer_read_data_from_chip(&bookKeepingTable[channel_id][waitingTR->Address.ChipID],
@@ -623,6 +645,7 @@ namespace SSD_Components {
 	inline void NVM_PHY_ONFI_NVDDR2::transfer_read_data_from_chip(ChipBookKeepingEntry* chipBKE, DieBookKeepingEntry* dieBKE, NVM_Transaction_Flash* tr)
 	{
 		//DEBUG2("Chip " << tr->Address.ChannelID << ", " << tr->Address.ChipID << ": transfer read data started for LPA: " << tr->LPA)
+        TRACE_LINE("");
 		dieBKE->ActiveTransfer = tr;
 		channels[tr->Address.ChannelID]->Chips[tr->Address.ChipID]->StartDataOutXfer();
 		chipBKE->Status = ChipStatus::DATA_OUT;
@@ -642,6 +665,7 @@ namespace SSD_Components {
 		switch (bookKeepingEntry->ActiveTransactions.front()->Type)
 		{
 			case Transaction_Type::READ:
+                TRACE_LINE("");
 				chip->StartCMDXfer();
 				bookKeepingTable[chip->ChannelID][chip->ChipID].Status = ChipStatus::CMD_IN;
 				Simulator->Register_sim_event(Simulator->Time() + bookKeepingEntry->DieInterleavedTime,
@@ -675,6 +699,7 @@ namespace SSD_Components {
 	inline void NVM_PHY_ONFI_NVDDR2::send_resume_command_to_chip(NVM::FlashMemory::Flash_Chip* chip, ChipBookKeepingEntry* chipBKE)
 	{
 		//DEBUG2("Chip " << chip->ChannelID << ", " << chip->ChipID << ": resume command " )
+        TRACE_LINE("");
 		for (unsigned int i = 0; i < die_no_per_chip; i++) {
 			DieBookKeepingEntry *dieBKE = &chipBKE->Die_book_keeping_records[i];
 			//Since the time required to send the resume command is very small, MQSim ignores it to simplify the simulation
@@ -686,16 +711,19 @@ namespace SSD_Components {
 				case CMD_READ_PAGE_MULTIPLANE:
 				case CMD_READ_PAGE_COPYBACK:
 				case CMD_READ_PAGE_COPYBACK_MULTIPLANE:
+                    TRACE_LINE("");
 					chipBKE->Status = ChipStatus::READING;
 					break;
 				case CMD_PROGRAM_PAGE:
 				case CMD_PROGRAM_PAGE_MULTIPLANE:
 				case CMD_PROGRAM_PAGE_COPYBACK:
 				case CMD_PROGRAM_PAGE_COPYBACK_MULTIPLANE:
+                    TRACE_LINE("");
 					chipBKE->Status = ChipStatus::WRITING;
 					break;
 				case CMD_ERASE_BLOCK:
 				case CMD_ERASE_BLOCK_MULTIPLANE:
+                    TRACE_LINE("");
 					chipBKE->Status = ChipStatus::ERASING;
 					break;
 			}

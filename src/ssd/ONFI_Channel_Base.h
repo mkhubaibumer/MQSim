@@ -22,6 +22,7 @@ namespace SSD_Components
 
 		void SetStatus(BusChannelStatus new_status, NVM::FlashMemory::Flash_Chip* target_chip)
 		{
+            TRACE_LINE("");
 			if (((status == BusChannelStatus::IDLE && new_status == BusChannelStatus::IDLE)
 				|| (status == BusChannelStatus::BUSY && new_status == BusChannelStatus::BUSY))
 				&& (current_active_chip != target_chip)) {

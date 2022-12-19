@@ -15,6 +15,7 @@ namespace SSD_Components {
 	*/
 	void NVM_PHY_ONFI::broadcastTransactionServicedSignal(NVM_Transaction_Flash* transaction)
 	{
+        TRACE_LINE("");
 		for (std::vector<TransactionServicedHandlerType>::iterator it = connectedTransactionServicedHandlers.begin();
 			it != connectedTransactionServicedHandlers.end(); it++) {
 			(*it)(transaction);
@@ -29,6 +30,7 @@ namespace SSD_Components {
 
 	void NVM_PHY_ONFI::broadcastChannelIdleSignal(flash_channel_ID_type channelID)
 	{
+        TRACE_LINE("");
 		for (std::vector<ChannelIdleHandlerType>::iterator it = connectedChannelIdleHandlers.begin();
 			it != connectedChannelIdleHandlers.end(); it++) {
 			(*it)(channelID);

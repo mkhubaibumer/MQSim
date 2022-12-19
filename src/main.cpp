@@ -1,3 +1,5 @@
+#ifndef BUILD_LIB
+
 #include <iostream>
 #include <fstream>
 #include <ctime>
@@ -91,7 +93,7 @@ std::vector<std::vector<IO_Flow_Parameter_Set*>*>* read_workload_definitions(con
 
 	ifstream workload_defs_file;
 	workload_defs_file.open(workload_defs_file_path.c_str());
-	bool use_default_workloads = true;
+	bool use_default_workloads = false;
 	if (!workload_defs_file) {
 		PRINT_MESSAGE("The specified workload definition file does not exist!");
 		PRINT_MESSAGE("Using MQSim's default workload definitions.");
@@ -295,7 +297,7 @@ int main(int argc, char* argv[])
 
 		Simulator->Start_simulation();
 
-		time_t end_time = time(0);
+		time_t end_time = time(nullptr);
 		dt = ctime(&end_time);
 		PRINT_MESSAGE("MQSim finished at " << dt)
 		uint64_t duration = (uint64_t)difftime(end_time, start_time);
@@ -311,3 +313,5 @@ int main(int argc, char* argv[])
 
 	return 0;
 }
+
+#endif /* BUILD_LIB */

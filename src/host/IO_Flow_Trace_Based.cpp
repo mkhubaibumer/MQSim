@@ -3,6 +3,10 @@
 #include "ASCII_Trace_Definition.h"
 #include "../utils/DistributionTypes.h"
 
+#ifndef BUILD_LIB
+#include "lib/libmqsim.h"
+#endif /* BUILD_LIB */
+
 namespace Host_Components
 {
 IO_Flow_Trace_Based::IO_Flow_Trace_Based(const sim_object_id_type &name, uint16_t flow_id, LHA_type start_lsa_on_device, LHA_type end_lsa_on_device, uint16_t io_queue_id,
@@ -61,6 +65,55 @@ Host_IO_Request *IO_Flow_Trace_Based::Generate_next_request()
 
 	return request;
 }
+#ifdef BUILD_LIB
+Host_IO_Request *IO_Flow_Trace_Based::Generate_Sim_Request(request_type_t *req)
+{
+	Host_IO_Request *request = new Host_IO_Request;
+	if (req->type == kREQUEST_TYPE::WRITE)
+	{
+		request->Type = Host_IO_Request_Type::WRITE;
+		STAT_generated_write_request_count++;
+	}
+	else
+	{
+		request->Type = Host_IO_Request_Type::READ;
+		STAT_generated_read_request_count++;
+	}
+
+	char *pEnd;
+	request->LBA_count = req->size_in_sectors;
+
+	request->Start_LBA = req->start_sector_addr;
+	if (request->Start_LBA <= (end_lsa_on_device - start_lsa_on_device))
+	{
+		request->Start_LBA += start_lsa_on_device;
+	}
+	else
+	{
+		request->Start_LBA = start_lsa_on_device + request->Start_LBA % (end_lsa_on_device - start_lsa_on_device);
+	}
+
+	request->Arrival_time = time_offset + Simulator->Time();
+	STAT_generated_request_count++;
+
+	return request;
+}
+
+void IO_Flow_Trace_Based::Execute_simulator_event(bool dummy, request_type_t *req)
+{
+    Host_IO_Request *request = Generate_Sim_Request(req);
+    if (request != NULL)
+    {
+        Submit_io_request(request);
+    }
+
+    if (STAT_generated_request_count < total_requests_to_be_generated)
+    {
+        char *pEnd;
+        Simulator->Register_sim_event(time_offset + req->arrival_time, this);
+    }
+}
+#endif
 
 void IO_Flow_Trace_Based::NVMe_consume_io_request(Completion_Queue_Entry *io_request)
 {
@@ -131,7 +184,9 @@ void IO_Flow_Trace_Based::Validate_simulation_config()
 
 void IO_Flow_Trace_Based::Execute_simulator_event(MQSimEngine::Sim_Event *)
 {
+    fprintf(stdout, "Line read\n");
 	Host_IO_Request *request = Generate_next_request();
+    TRACE_LINE(request->str());
 	if (request != NULL)
 	{
 		Submit_io_request(request);
