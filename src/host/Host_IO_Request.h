@@ -3,6 +3,15 @@
 
 #include "../ssd/SSD_Defs.h"
 
+
+typedef struct {
+    uint64_t id;
+    uint64_t arrival_time;
+    uint64_t delay;
+    uint64_t response_time;
+    uint64_t completion_time;
+} completion_info_t;
+
 namespace Host_Components
 {
 	enum class Host_IO_Request_Type { READ, WRITE };
@@ -16,6 +25,12 @@ namespace Host_Components
 		Host_IO_Request_Type Type;
 		uint16_t IO_queue_info;
 		uint16_t Source_flow_id;//Only used in SATA host interface
+
+        completion_info_t *info;
+        uint64_t req_id;
+
+        ~Host_IO_Request();
+
 	};
 }
 

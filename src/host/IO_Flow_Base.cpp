@@ -4,7 +4,12 @@
 
 namespace Host_Components
 {
-	//unsigned int InputStreamBase::lastId = 0;
+    Host_IO_Request::~Host_IO_Request()
+    {
+        Simulator->report_request_complete(this->info);
+    }
+
+    //unsigned int InputStreamBase::lastId = 0;
 IO_Flow_Base::IO_Flow_Base(const sim_object_id_type &name, uint16_t flow_id, LHA_type start_lsa_on_device, LHA_type end_lsa_on_device, uint16_t io_queue_id,
 						   uint16_t nvme_submission_queue_size, uint16_t nvme_completion_queue_size,
 						   IO_Flow_Priority_Class::Priority priority_class, sim_time_type stop_time, double initial_occupancy_ratio, unsigned int total_requets_to_be_generated,
@@ -246,6 +251,7 @@ IO_Flow_Base::IO_Flow_Base(const sim_object_id_type &name, uint16_t flow_id, LHA
 
 	void IO_Flow_Base::NVMe_consume_io_request(Completion_Queue_Entry* cqe)
 	{
+        static uint64_t req_cnt = 0;
 		//Find the request and update statistics
 		Host_IO_Request* request = nvme_software_request_queue[cqe->Command_Identifier];
 		nvme_software_request_queue.erase(cqe->Command_Identifier);
@@ -309,7 +315,16 @@ IO_Flow_Base::IO_Flow_Base(const sim_object_id_type &name, uint16_t flow_id, LHA
 			STAT_transferred_bytes_write += request->LBA_count * SECTOR_SIZE_IN_BYTE;
 		}
 
-		delete request;
+        auto info = (completion_info_t*) calloc(1, sizeof (completion_info_t));
+        info->arrival_time = request->Arrival_time;
+        info->delay = request_delay;
+        info->response_time = device_response_time;
+        info->completion_time = Simulator->Time();
+        info->id = ++req_cnt;
+
+        request->info = info;
+
+        delete request;
 
 		nvme_queue_pair.Submission_queue_head = cqe->SQ_Head;
 		

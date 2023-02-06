@@ -132,4 +132,20 @@ namespace MQSimEngine
 	{
 		return false;
 	}
+    void Engine::report_request_complete(completion_info_t *info)
+    {
+        done_queue.push(info);
+    }
+    void Engine::print_stats() {
+        while (!done_queue.empty())
+        {
+            auto req = done_queue.front();
+            done_queue.pop();
+            printf("Request id %llu, complete! End to End Time %llu\n", req->id, (req->completion_time - req->arrival_time));
+            printf("arrival %llu, delay %llu, response_time %llu\n", req->arrival_time, req->delay,
+                       req->response_time);
+            free(req);
+        }
+    }
+
 }
