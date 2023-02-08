@@ -146,6 +146,7 @@ namespace MQSimEngine
                        req->response_time);
             free(req);
         }
+        fflush(stdout);
     }
 
 }
