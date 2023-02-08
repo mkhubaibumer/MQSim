@@ -23,8 +23,13 @@ namespace MQSimEngine {
 		~Engine() {
 			delete _EventList;
 		}
-		
-		static Engine* Instance();
+
+        uint64_t get_next_request_id()
+        {
+            return ++req_id;
+        }
+
+        static Engine* Instance();
 		sim_time_type Time();
 		Sim_Event* Register_sim_event(sim_time_type fireTime, Sim_Object* targetObject, void* parameters = NULL, int type = 0);
 		void Ignore_sim_event(Sim_Event*);
@@ -42,6 +47,7 @@ namespace MQSimEngine {
     private:
 		sim_time_type _sim_time;
 		EventTree* _EventList;
+        uint64_t req_id = 0;
 		std::unordered_map<sim_object_id_type, Sim_Object*> _ObjectList;
 		bool stop;
 		bool started;

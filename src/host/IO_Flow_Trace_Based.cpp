@@ -57,6 +57,7 @@ Host_IO_Request *IO_Flow_Trace_Based::Generate_next_request()
 	}
 
 	request->Arrival_time = time_offset + Simulator->Time();
+    request->req_id = Simulator->get_next_request_id();
 	STAT_generated_request_count++;
 
 	return request;

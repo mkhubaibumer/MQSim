@@ -251,7 +251,6 @@ IO_Flow_Base::IO_Flow_Base(const sim_object_id_type &name, uint16_t flow_id, LHA
 
 	void IO_Flow_Base::NVMe_consume_io_request(Completion_Queue_Entry* cqe)
 	{
-        static uint64_t req_cnt = 0;
 		//Find the request and update statistics
 		Host_IO_Request* request = nvme_software_request_queue[cqe->Command_Identifier];
 		nvme_software_request_queue.erase(cqe->Command_Identifier);
@@ -320,7 +319,7 @@ IO_Flow_Base::IO_Flow_Base(const sim_object_id_type &name, uint16_t flow_id, LHA
         info->delay = request_delay;
         info->response_time = device_response_time;
         info->completion_time = Simulator->Time();
-        info->id = ++req_cnt;
+        info->id = request->req_id;
 
         request->info = info;
 
